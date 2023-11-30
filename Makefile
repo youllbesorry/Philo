@@ -6,7 +6,7 @@
 #    By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/28 11:31:06 by bfaure            #+#    #+#              #
-#    Updated: 2023/11/28 14:21:41 by bfaure           ###   ########lyon.fr    #
+#    Updated: 2023/11/30 11:03:42 by bfaure           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ DIR_SRCS	=	src/
 
 SRCS			=	main.c \
 					ft_atoi.c \
+					routine.c \
 
 OBJS = ${SRCS:%.c=${DIR_OBJS}%.o}
 
