@@ -6,7 +6,7 @@
 #    By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/28 11:31:06 by bfaure            #+#    #+#              #
-#    Updated: 2023/11/30 11:03:42 by bfaure           ###   ########lyon.fr    #
+#    Updated: 2023/12/01 17:00:15 by bfaure           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,15 +20,18 @@ NAME		=	philo
 
 DIR_OBJS	=	.objs/
 
-DIR_SRCS	=	src/
+DIR_SRCS	=	./src/
 
 # ---- Files ---- #
 
 SRCS			=	main.c \
-					ft_atoi.c \
 					routine.c \
+					utils/ft_atoi.c \
+					utils/init.c \
+					utils/ft_exit.c \
+					actions.c \
 
-OBJS = ${SRCS:%.c=${DIR_OBJS}%.o}
+OBJS	= ${addprefix ${DIR_OBJS},${SRCS:.c=.o}}
 
 DEPS = ${SRCS:%.c=${DIR_OBJS}%.d}
 
@@ -62,7 +65,7 @@ ${NAME}	:	${OBJS}
 -include ${DEPS}
 
 ${DIR_OBJS}%.o	:	${DIR_SRCS}%.c
-					@${MKDIR} ${DIR_OBJS}
+	@				$(MKDIR) $(shell dirname $@)
 					${CC} ${CFLAGS} -c $< -o $@		
 
 # ---- Usual Commands ---- #

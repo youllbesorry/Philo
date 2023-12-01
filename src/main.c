@@ -6,7 +6,7 @@
 /*   By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 11:28:04 by bfaure            #+#    #+#             */
-/*   Updated: 2023/11/29 18:26:01 by bfaure           ###   ########lyon.fr   */
+/*   Updated: 2023/12/01 16:45:48 by bfaure           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,35 +24,24 @@ int	main(int argc, char **argv)
 		data.time_to_die = ft_atoi(argv[2]);
 		data.time_to_eat = ft_atoi(argv[3]);
 		data.time_to_sleep = ft_atoi(argv[4]);
+		data.is_alive = true;
 		if (argc == 6)
 			data.nb_eat = ft_atoi(argv[5]);
+		else
+			data.nb_eat = -1;
 		data.threads = malloc(sizeof(pthread_t) * data.nb_philo);
 		if (!data.threads)
 			printf("Error, malloc failed\n");
-		data.mutex = malloc(sizeof(pthread_mutex_t) * data.nb_philo);
-		if (!data.mutex)
+		if (init_struct(&data))
 			printf("Error, malloc failed\n");
 		while (i < data.nb_philo)
 		{
-			pthread_mutex_init(&data.mutex[i], NULL);
-			if (pthread_create(&data.threads[i], NULL, routine, &data))
+			if (pthread_create(&data.threads[i], NULL, routine, &data.philo[i]))
 				printf("Error, thread creation failed\n");
 			i++;
 		}
-		i = 0;
-		while (i < data.nb_philo)
-		{
-			if (pthread_join(data.threads[i], NULL))
-				printf("Error, thread join failed\n");
-			i++;
-		}
-		i = 0;
-		while (i < data.nb_philo)
-		{
-			pthread_mutex_destroy(&data.mutex[i]);
-			i++;
-		}
-		free(data.threads);
+		pthread_mutex_unlock(&data.philo->mutex_sync);
+		ft_exit(&data);
 	}
 	else
 		printf("Error, wrong number of arguments\n");

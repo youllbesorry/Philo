@@ -14,18 +14,32 @@
 
 void	*routine(void *data_arg)
 {
-	static t_uint	i = 0;
-	t_data			*data;
+	t_philo	*philo;
+	t_tv	timeval;
+	t_uint	i;
 
-	data = (t_data *)data_arg;
-	if (data)
+	i = 0;
+	philo = (t_philo *)data_arg;
+	pthread_create(&philo->death_thread, NULL, death, philo);
+	pthread_detach(philo->death_thread);
+	pthread_mutex_lock(&philo->mutex_sync);
+	while (philo->data->is_alive)
 	{
-		pthread_mutex_lock(data->mutex);
-		data->philo->id_philo = i++;
-		printf("Hello from thread %u\n", data->philo->id_philo);
-		printf("Goodbye from thread %u\n", data->philo->id_philo);
-		pthread_detach(data->threads[data->philo->id_philo]);
-		pthread_mutex_unlock(data->mutex);
+		if (philo->data->nb_eat != 0)
+		{
+			take_fork(philo, i);
+			eat(philo);
+			gettimeofday(&timeval, NULL);
+			philo->last_eat = timeval.tv_sec * 1000 + timeval.tv_usec / 1000;
+			if(pthread_mutex_unlock(&philo[i].fork))
+				philo->data->nb_fork++;
+			if(pthread_mutex_unlock(&philo[i + 1].fork))
+				philo->data->nb_fork++;
+			ft_sleep(philo);
+			think(philo);
+		}
+		i++;
 	}
+	pthread_mutex_unlock(&philo->mutex_sync);
 	return (NULL);
 }
