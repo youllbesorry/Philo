@@ -6,7 +6,7 @@
 /*   By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 11:28:04 by bfaure            #+#    #+#             */
-/*   Updated: 2023/12/01 16:45:48 by bfaure           ###   ########lyon.fr   */
+/*   Updated: 2023/12/04 16:22:36 by bfaure           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	main(int argc, char **argv)
 		data.time_to_eat = ft_atoi(argv[3]);
 		data.time_to_sleep = ft_atoi(argv[4]);
 		data.is_alive = true;
+		data.start_time = ft_get_time();
+		data.nb_fork = data.nb_philo;
 		if (argc == 6)
 			data.nb_eat = ft_atoi(argv[5]);
 		else

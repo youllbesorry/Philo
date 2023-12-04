@@ -6,7 +6,7 @@
 #    By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/28 11:31:06 by bfaure            #+#    #+#              #
-#    Updated: 2023/12/01 17:00:15 by bfaure           ###   ########lyon.fr    #
+#    Updated: 2023/12/04 16:33:25 by bfaure           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS			=	main.c \
 					utils/init.c \
 					utils/ft_exit.c \
 					actions.c \
+					utils/utils.c \
 
 OBJS	= ${addprefix ${DIR_OBJS},${SRCS:.c=.o}}
 
@@ -41,7 +42,7 @@ CC		=	cc
 
 DEPS_FLAGS = -MMD -MP
 
-CFLAGS	=	${DEPS_FLAGS} -Wall -Wextra -Werror -pthread -g3 -fsanitize=address
+CFLAGS	=	${DEPS_FLAGS} -Wall -Wextra -Werror -pthread -g3 -fsanitize=thread
 
 # ---- Commands ---- #
 

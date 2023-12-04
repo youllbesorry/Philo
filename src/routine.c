@@ -15,7 +15,6 @@
 void	*routine(void *data_arg)
 {
 	t_philo	*philo;
-	t_tv	timeval;
 	t_uint	i;
 
 	i = 0;
@@ -23,21 +22,11 @@ void	*routine(void *data_arg)
 	pthread_create(&philo->death_thread, NULL, death, philo);
 	pthread_detach(philo->death_thread);
 	pthread_mutex_lock(&philo->mutex_sync);
-	while (philo->data->is_alive)
+	while (philo->data->is_alive && philo->is_finish == false)
 	{
-		if (philo->data->nb_eat != 0)
-		{
-			take_fork(philo, i);
-			eat(philo);
-			gettimeofday(&timeval, NULL);
-			philo->last_eat = timeval.tv_sec * 1000 + timeval.tv_usec / 1000;
-			if(pthread_mutex_unlock(&philo[i].fork))
-				philo->data->nb_fork++;
-			if(pthread_mutex_unlock(&philo[i + 1].fork))
-				philo->data->nb_fork++;
-			ft_sleep(philo);
-			think(philo);
-		}
+		think(philo);
+		eat(philo, i);
+		ft_sleep(philo);
 		i++;
 	}
 	pthread_mutex_unlock(&philo->mutex_sync);
