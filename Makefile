@@ -6,7 +6,7 @@
 #    By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/28 11:31:06 by bfaure            #+#    #+#              #
-#    Updated: 2023/12/04 16:33:25 by bfaure           ###   ########lyon.fr    #
+#    Updated: 2023/12/05 18:51:13 by bfaure           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,13 @@ DIR_SRCS	=	./src/
 SRCS			=	main.c \
 					routine.c \
 					utils/ft_atoi.c \
+					utils/ft_isdigit.c \
 					utils/init.c \
 					utils/ft_exit.c \
 					actions.c \
 					utils/utils.c \
+					fork.c \
+					monitoring.c \
 
 OBJS	= ${addprefix ${DIR_OBJS},${SRCS:.c=.o}}
 
@@ -42,7 +45,7 @@ CC		=	cc
 
 DEPS_FLAGS = -MMD -MP
 
-CFLAGS	=	${DEPS_FLAGS} -Wall -Wextra -Werror -pthread -g3 -fsanitize=thread
+CFLAGS	=	${DEPS_FLAGS} -Wall -Wextra -Werror -pthread -g3 -fsanitize=address
 
 # ---- Commands ---- #
 

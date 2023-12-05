@@ -6,7 +6,7 @@
 /*   By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 11:28:08 by bfaure            #+#    #+#             */
-/*   Updated: 2023/12/04 13:46:49 by bfaure           ###   ########lyon.fr   */
+/*   Updated: 2023/12/05 17:02:16 by bfaure           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,24 @@
 # include <sys/time.h>
 
 void	*routine(void *arg);
-int		main(int argc, char **argv);
+void	eat(t_philo *philo);
+void	ft_exit(t_data *data);
+void	*monitoring(void *arg);
+void	sleeping(t_philo *philo);
+void	thinking(t_philo *philo);
+void	drop_fork(t_philo *philo);
+void	take_his_fork(t_philo *philo);
+void	take_right_fork(t_philo *philo);
+
 int		ft_atoi(const char *str);
-t_uint	init_struct(t_data *data);
-t_uint	ft_exit(t_data *data);
-void	eat(t_philo *philo, t_uint i);
-void	ft_sleep(t_philo *philo);
-void	think(t_philo *philo);
-void	*death(void *data_arg);
-void	take_fork(t_philo *philo, t_uint i);
+int		main(int argc, char **argv);
+
 t_uint	ft_get_time(void);
+t_uint	ft_isdigit(int c);
 t_uint	ft_usleep(t_uint time);
-t_uint	ft_message(t_philo *philo, char *str);
 t_uint	init_mutex(t_data *data);
-void	drop_fork(t_philo *philo, t_uint i);
+t_uint	init_philo(t_data *data);
+t_uint	ft_message(t_philo *philo, char *str);
+t_uint	init_data(t_data *data);
 
 #endif

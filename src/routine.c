@@ -15,20 +15,15 @@
 void	*routine(void *data_arg)
 {
 	t_philo	*philo;
-	t_uint	i;
 
-	i = 0;
 	philo = (t_philo *)data_arg;
-	pthread_create(&philo->death_thread, NULL, death, philo);
-	pthread_detach(philo->death_thread);
-	pthread_mutex_lock(&philo->mutex_sync);
-	while (philo->data->is_alive && philo->is_finish == false)
+	pthread_mutex_lock(&philo->mutex.mutex_sync);
+	while (philo->data->is_alive || philo->nb_eat != 0)
 	{
-		think(philo);
-		eat(philo, i);
-		ft_sleep(philo);
-		i++;
+		thinking(philo);
+		eat(philo);
+		sleeping(philo);
 	}
-	pthread_mutex_unlock(&philo->mutex_sync);
+	pthread_mutex_unlock(&philo->mutex.mutex_sync);
 	return (NULL);
 }

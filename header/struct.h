@@ -6,7 +6,7 @@
 /*   By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 11:43:25 by bfaure            #+#    #+#             */
-/*   Updated: 2023/12/04 16:37:37 by bfaure           ###   ########lyon.fr   */
+/*   Updated: 2023/12/05 18:18:11 by bfaure           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,36 +19,43 @@
 typedef unsigned int	t_uint;
 typedef struct timeval	t_tv;
 
+typedef struct s_mutex
+{
+	pthread_mutex_t	mutex_eat;
+	pthread_mutex_t	mutex_sync;
+	pthread_mutex_t	mutex_message;
+}	t_mutex;
+
 typedef struct s_philo
 {
 	struct s_data	*data;
-	t_uint			id_philo;
-	t_uint			last_eat;
-	pthread_t		death_thread;
-	pthread_mutex_t	fork;
-	pthread_mutex_t	mutex_sync;
-	pthread_mutex_t	mutex_eat;
-	bool			is_eating;
-	bool			is_finish;
-	t_uint			nb_fork_philo;
+	t_mutex			mutex;
+	pthread_mutex_t	*his_fork;
+	pthread_mutex_t	*right_fork;
 	int				nb_eat;
-	t_uint			life_time;
+	t_uint			nb_fork;
+	t_uint			last_eat;
+	t_uint			lifespan;
+	t_uint			philo_id;
 }	t_philo;
 
 typedef struct s_data
 {
-	bool			is_alive;
-	t_uint			start_time;
-	pthread_t		*threads;
-	pthread_mutex_t	*mutex;
-	t_uint			nb_philo;
-	t_uint			time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				nb_fork;
-	bool			simulation;
-	int				nb_eat;
 	t_philo			*philo;
+	t_mutex			*mutex;
+	pthread_mutex_t	*forks;
+	pthread_t		*philo_thread;
+	pthread_t		monitor_thread;
+	pthread_mutex_t	monitor_mutex;
+	bool			is_alive;
+	bool			is_finish;
+	int				nb_eat;
+	t_uint			finish;
+	t_uint			nb_philo;
+	t_uint			start_time;
+	t_uint			time_to_die;
+	t_uint			time_to_eat;
+	t_uint			time_to_sleep;
 }	t_data;
 
 #endif
