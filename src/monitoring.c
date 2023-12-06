@@ -6,41 +6,71 @@
 /*   By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 16:34:24 by bfaure            #+#    #+#             */
-/*   Updated: 2023/12/05 18:21:19 by bfaure           ###   ########lyon.fr   */
+/*   Updated: 2023/12/06 19:26:12 by bfaure           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/philo.h"
 
-void	*monitoring(void *data_arg)
+void	monitor_thread_create(t_data *data)
 {
-	t_data	*data;
 	t_uint	i;
 
-	data = (t_data *)data_arg;
-	pthread_mutex_lock(&data->monitor_mutex);
-	while (data->is_alive && !data->is_finish)
+	i = 0;
+	if (data->nb_philo < 4)
 	{
-		i = 0;
-		while (i < data->nb_philo)
+		data->monitor_thread = malloc(sizeof(pthread_t) * 1);
+		if (!data->monitor_thread)
+			return ;
+		mono_monitor_init(data);
+		pthread_create(data->monitor_thread, NULL, monitoring, &data->monitor[0]);
+		pthread_detach(*data->monitor_thread);
+	}
+	else
+	{
+		data->monitor_thread = malloc(sizeof(pthread_t) * 4);
+		if (!data->monitor_thread)
+			return ;
+		multi_monitor_init(data);
+		while (i < 4)
 		{
-			if (data->philo[i].lifespan
-				< (ft_get_time() - data->start_time) - data->philo[i].last_eat)
-			{
-				ft_message(&data->philo[i], "died");
-				data->is_alive = false;
-				ft_exit(data);
-				return (pthread_mutex_unlock(&data->monitor_mutex), NULL);
-			}
+			pthread_create(&data->monitor_thread[i], NULL, monitoring,
+				&data->monitor[i]);
+			pthread_detach(data->monitor_thread[i]);
 			i++;
 		}
-		if (data->finish == data->nb_philo)
-		{
-			data->is_finish = true;
-			ft_exit(data);
-			return (pthread_mutex_unlock(&data->monitor_mutex), NULL);
-		}
 	}
-	pthread_mutex_unlock(&data->monitor_mutex);
+}
+
+void	*monitoring(void *data_arg)
+{
+	t_monitor	*monitor;
+	t_uint		i;
+
+	monitor = (t_monitor *)data_arg;
+	while (monitor->data->is_alive && !monitor->data->is_finish)
+	{
+		i = monitor->start;
+		while (i < monitor->end)
+		{
+			pthread_mutex_lock(&monitor->data->mutex->mutex_eat);
+			if (monitor->data->philo[i].lifespan
+				< (ft_get_time() - monitor->data->start_time) - monitor->data->philo[i].last_eat)
+			{
+				ft_message(&monitor->data->philo[i], "died");
+				monitor->data->is_alive = false;
+				return (pthread_mutex_unlock(&monitor->data->mutex->mutex_eat), NULL);
+			}
+			pthread_mutex_unlock(&monitor->data->mutex->mutex_eat);
+			i++;
+		}
+		pthread_mutex_lock(&monitor->data->mutex->mutex_eat);
+		if (monitor->data->finish == monitor->data->nb_philo)
+		{
+			monitor->data->is_finish = true;
+			return (pthread_mutex_unlock(&monitor->data->mutex->mutex_eat), NULL);
+		}
+		pthread_mutex_unlock(&monitor->data->mutex->mutex_eat);
+	}
 	return (NULL);
 }

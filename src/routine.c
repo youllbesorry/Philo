@@ -18,7 +18,9 @@ void	*routine(void *data_arg)
 
 	philo = (t_philo *)data_arg;
 	pthread_mutex_lock(&philo->mutex.mutex_sync);
-	while (philo->data->is_alive || philo->nb_eat != 0)
+	if (philo->philo_id % 2 == 0)
+		usleep(15000);
+	while (philo->data->is_alive && philo->nb_eat != 0)
 	{
 		thinking(philo);
 		eat(philo);

@@ -6,7 +6,7 @@
 /*   By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 11:28:04 by bfaure            #+#    #+#             */
-/*   Updated: 2023/12/05 18:50:57 by bfaure           ###   ########lyon.fr   */
+/*   Updated: 2023/12/06 18:59:24 by bfaure           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ t_uint	thread_create(t_data *data)
 	t_uint	i;
 
 	i = 0;
-	pthread_create(&data->monitor_thread, NULL, monitoring, data);
-	pthread_detach(data->monitor_thread);
+	monitor_thread_create(data);
 	pthread_mutex_lock(&data->mutex->mutex_sync);
 	while (i < data->nb_philo)
 	{
@@ -56,13 +55,6 @@ t_uint	thread_create(t_data *data)
 		i++;
 	}
 	pthread_mutex_unlock(&data->mutex->mutex_sync);
-	i = 0;
-	while (i < data->nb_philo)
-	{
-		if (pthread_join(data->philo_thread[i], NULL))
-			return (1);
-		i++;
-	}
 	return (0);
 }
 
@@ -83,6 +75,7 @@ int	main(int argc, char **argv)
 		while (i < data.nb_philo)
 			if (pthread_join(data.philo_thread[i++], NULL))
 				return (printf("Error: Thread join failed\n"), 1);
+		ft_exit(&data);
 	}
 	else
 	{

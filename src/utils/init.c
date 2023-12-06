@@ -43,8 +43,6 @@ t_uint	init_data(t_data *data)
 
 t_uint	init_mutex(t_data *data)
 {
-	if (pthread_mutex_init(&data->monitor_mutex, NULL) != 0)
-		return (1);
 	if (pthread_mutex_init(&data->mutex->mutex_message, NULL) != 0)
 		return (1);
 	if (pthread_mutex_init(&data->mutex->mutex_eat, NULL) != 0)
