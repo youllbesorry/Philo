@@ -6,7 +6,7 @@
 /*   By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 12:47:27 by bfaure            #+#    #+#             */
-/*   Updated: 2023/12/06 17:09:58 by bfaure           ###   ########lyon.fr   */
+/*   Updated: 2023/12/11 11:00:09 by bfaure           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@ void	ft_exit(t_data *data)
 
 	i = 0;
 	// pthread_mutex_lock(&data->mutex->mutex_message);
-	// pthread_mutex_lock(&data->mutex->mutex_eat);
+	// pthread_mutex_lock(&data->mutex->mutex_all);
 	// pthread_mutex_lock(&data->mutex->mutex_sync);
 	// pthread_mutex_unlock(&data->mutex->mutex_message);
-	// pthread_mutex_unlock(&data->mutex->mutex_eat);
+	// pthread_mutex_unlock(&data->mutex->mutex_all);
 	// pthread_mutex_unlock(&data->mutex->mutex_sync);
 	while (i < data->nb_philo)
 	{
 		pthread_mutex_destroy(&data->forks[i]);
 		i++;
 	}
-	pthread_mutex_destroy(&data->mutex->mutex_eat);
+	pthread_mutex_destroy(&data->mutex->mutex_all);
 	pthread_mutex_destroy(&data->mutex->mutex_sync);
 	pthread_mutex_destroy(&data->mutex->mutex_message);
 	if (data->philo)

@@ -45,7 +45,7 @@ t_uint	init_mutex(t_data *data)
 {
 	if (pthread_mutex_init(&data->mutex->mutex_message, NULL) != 0)
 		return (1);
-	if (pthread_mutex_init(&data->mutex->mutex_eat, NULL) != 0)
+	if (pthread_mutex_init(&data->mutex->mutex_all, NULL) != 0)
 		return (1);
 	if (pthread_mutex_init(&data->mutex->mutex_sync, NULL) != 0)
 		return (1);
@@ -71,6 +71,7 @@ t_uint	init_philo(t_data *data)
 		data->philo[i].nb_eat = data->nb_eat;
 		data->philo[i].nb_fork = 0;
 		data->philo[i].mutex = *data->mutex;
+		data->philo[i].time_to_eat = data->time_to_eat;
 		i++;
 	}
 	return (0);

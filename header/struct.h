@@ -6,7 +6,7 @@
 /*   By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 11:43:25 by bfaure            #+#    #+#             */
-/*   Updated: 2023/12/06 19:05:16 by bfaure           ###   ########lyon.fr   */
+/*   Updated: 2023/12/11 14:20:12 by bfaure           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct timeval	t_tv;
 
 typedef struct s_mutex
 {
-	pthread_mutex_t	mutex_eat;
+	pthread_mutex_t	mutex_all;
 	pthread_mutex_t	mutex_sync;
 	pthread_mutex_t	mutex_message;
 }	t_mutex;
@@ -37,6 +37,7 @@ typedef struct s_philo
 	t_uint			last_eat;
 	t_uint			lifespan;
 	t_uint			philo_id;
+	t_uint			time_to_eat;
 }	t_philo;
 
 typedef struct s_data

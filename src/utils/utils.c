@@ -6,7 +6,7 @@
 /*   By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 11:47:40 by bfaure            #+#    #+#             */
-/*   Updated: 2023/12/06 19:20:02 by bfaure           ###   ########lyon.fr   */
+/*   Updated: 2023/12/11 14:34:18 by bfaure           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_uint	ft_usleep(t_uint time)
 
 	time_start = ft_get_time();
 	while (ft_get_time() - time_start < time)
-		usleep(time / 10);
+		usleep(time * 0.1);
 	return (0);
 }
 
