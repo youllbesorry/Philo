@@ -6,7 +6,7 @@
 #    By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/28 11:31:06 by bfaure            #+#    #+#              #
-#    Updated: 2023/12/11 15:53:12 by bfaure           ###   ########lyon.fr    #
+#    Updated: 2023/12/12 16:43:42 by bfaure           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,10 @@ SRCS			=	main.c \
 					utils/ft_exit.c \
 					actions.c \
 					utils/utils.c \
+					utils/utils2.c \
 					fork.c \
 					monitoring.c \
+					monitor_thread_create.c \
 
 OBJS	= ${addprefix ${DIR_OBJS},${SRCS:.c=.o}}
 

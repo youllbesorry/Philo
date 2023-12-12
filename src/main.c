@@ -6,7 +6,7 @@
 /*   By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 11:28:04 by bfaure            #+#    #+#             */
-/*   Updated: 2023/12/11 15:04:29 by bfaure           ###   ########lyon.fr   */
+/*   Updated: 2023/12/12 14:06:19 by bfaure           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,17 @@ t_uint	thread_create(t_data *data)
 	t_uint	i;
 
 	i = 0;
-	monitor_thread_create(data);
 	pthread_mutex_lock(&data->mutex->mutex_sync);
 	while (i < data->nb_philo)
 	{
 		if (pthread_create(&data->philo_thread[i],
 				NULL, routine, &data->philo[i]))
-			return (pthread_mutex_unlock(&data->mutex->mutex_sync), 1);
+			return (1);
 		i++;
 	}
+	data->start_time = ft_get_time();
+	if (monitor_thread_create(data))
+		return (pthread_mutex_unlock(&data->mutex->mutex_sync), 1);
 	pthread_mutex_unlock(&data->mutex->mutex_sync);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 11:47:40 by bfaure            #+#    #+#             */
-/*   Updated: 2023/12/11 14:34:18 by bfaure           ###   ########lyon.fr   */
+/*   Updated: 2023/12/12 16:32:05 by bfaure           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_uint	ft_usleep(t_uint time)
 	t_uint	time_start;
 
 	time_start = ft_get_time();
+	if (time_start == 1)
+		return (1);
 	while (ft_get_time() - time_start < time)
 		usleep(time * 0.1);
 	return (0);
@@ -34,14 +36,13 @@ t_uint	ft_usleep(t_uint time)
 t_uint	ft_message(t_philo *philo, char *str)
 {
 	pthread_mutex_lock(&philo->data->mutex->mutex_message);
-	if (philo->data->is_alive)
+	if (is_dead(philo->data))
+	{
 		printf("%u %u %s\n",
 			ft_get_time() - philo->data->start_time, philo->philo_id, str);
-	else
-	{
-		pthread_mutex_unlock(&philo->data->mutex->mutex_message);
-		return (1);
 	}
+	else
+		return (pthread_mutex_unlock(&philo->data->mutex->mutex_message), 1);
 	pthread_mutex_unlock(&philo->data->mutex->mutex_message);
 	return (0);
 }

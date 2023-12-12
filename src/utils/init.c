@@ -18,7 +18,7 @@ t_uint	init_data(t_data *data)
 
 	i = 0;
 	data->is_alive = true;
-	data->start_time = ft_get_time();
+	data->start_time = 0;
 	data->finish = 0;
 	data->is_finish = false;
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
@@ -64,13 +64,13 @@ t_uint	init_philo(t_data *data)
 	{
 		data->philo[i].data = data;
 		data->philo[i].philo_id = i + 1;
-		data->philo[i].last_eat = ft_get_time() - data->start_time;
+		data->philo[i].last_eat = 0;
 		data->philo[i].his_fork = &data->forks[i];
 		data->philo[i].right_fork = &data->forks[(i + 1) % data->nb_philo];
 		data->philo[i].lifespan = data->time_to_die;
 		data->philo[i].nb_eat = data->nb_eat;
 		data->philo[i].nb_fork = 0;
-		data->philo[i].mutex = *data->mutex;
+		data->philo[i].mutex = data->mutex;
 		data->philo[i].time_to_eat = data->time_to_eat;
 		i++;
 	}

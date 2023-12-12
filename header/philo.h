@@ -6,7 +6,7 @@
 /*   By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 11:28:08 by bfaure            #+#    #+#             */
-/*   Updated: 2023/12/06 18:59:01 by bfaure           ###   ########lyon.fr   */
+/*   Updated: 2023/12/12 15:21:53 by bfaure           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,17 @@
 # include <sys/time.h>
 
 void	*routine(void *arg);
-void	eat(t_philo *philo);
+t_uint	eat(t_philo *philo);
 void	ft_exit(t_data *data);
 void	*monitoring(void *arg);
-void	sleeping(t_philo *philo);
+t_uint	sleeping(t_philo *philo);
 void	thinking(t_philo *philo);
 void	unlock_all(t_data *data);
 void	drop_fork(t_philo *philo);
 void	take_fork(t_philo *philo);
-void	monitor_thread_create(t_data *data);
+bool	running(t_data *data);
+bool	is_dead(t_data *data);
+t_uint	monitor_thread_create(t_data *data);
 
 int		ft_atoi(const char *str);
 int		main(int argc, char **argv);
