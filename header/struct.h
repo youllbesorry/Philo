@@ -6,7 +6,7 @@
 /*   By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 11:43:25 by bfaure            #+#    #+#             */
-/*   Updated: 2023/12/12 14:40:16 by bfaure           ###   ########lyon.fr   */
+/*   Updated: 2023/12/13 14:52:15 by bfaure           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ struct s_data
 	bool				is_alive;
 	bool				is_finish;
 	int					nb_eat;
+	t_uint				nb_monitor;
 	t_uint				finish;
 	t_uint				nb_philo;
 	t_uint				start_time;

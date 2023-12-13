@@ -6,13 +6,13 @@
 /*   By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/28 11:28:04 by bfaure            #+#    #+#             */
-/*   Updated: 2023/12/12 14:06:19 by bfaure           ###   ########lyon.fr   */
+/*   Updated: 2023/12/13 18:58:41 by bfaure           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/philo.h"
 
-t_uint	pars_arg(t_data *data, char **argv)
+static t_uint	pars_arg(t_data *data, char **argv)
 {
 	t_uint	i;
 	t_uint	j;
@@ -40,7 +40,7 @@ t_uint	pars_arg(t_data *data, char **argv)
 	return (0);
 }
 
-t_uint	thread_create(t_data *data)
+static t_uint	thread_create(t_data *data)
 {
 	t_uint	i;
 
@@ -50,22 +50,38 @@ t_uint	thread_create(t_data *data)
 	{
 		if (pthread_create(&data->philo_thread[i],
 				NULL, routine, &data->philo[i]))
+		{
+			ft_kill_philo_threads(data, i, 1);
 			return (1);
+		}
 		i++;
 	}
 	data->start_time = ft_get_time();
 	if (monitor_thread_create(data))
-		return (pthread_mutex_unlock(&data->mutex->mutex_sync), 1);
+		return (1);
 	pthread_mutex_unlock(&data->mutex->mutex_sync);
+	return (0);
+}
+
+static t_uint	join_thread(t_data *data)
+{
+	t_uint	i;
+
+	i = 0;
+	while (i < data->nb_philo && data->philo_thread[i])
+		if (pthread_join(data->philo_thread[i++], NULL))
+			return (1);
+	i = 0;
+	while (i < data->nb_monitor && data->monitor_thread[i])
+		if (pthread_join(data->monitor_thread[i++], NULL))
+			return (1);
 	return (0);
 }
 
 int	main(int argc, char **argv)
 {
 	t_data			data;
-	t_uint			i;
 
-	i = 0;
 	if (argc == 5 || argc == 6)
 	{
 		if (pars_arg(&data, argv) == 1)
@@ -73,11 +89,12 @@ int	main(int argc, char **argv)
 		if (init_data(&data) == 1)
 			return (1);
 		if (thread_create(&data) == 1)
-			return (printf("Error: Thread creation failed\n"), 1);
-		while (i < data.nb_philo)
-			if (pthread_join(data.philo_thread[i++], NULL))
-				return (printf("Error: Thread join failed\n"), 1);
-		ft_exit(&data);
+			return (ft_exit(&data, 1),
+				printf("Error: Thread creation failed\n"), 1);
+		if (join_thread(&data) == 1)
+			return (ft_exit(&data, 1),
+				printf("Error: Thread join failed\n"), 1);
+		ft_exit(&data, 0);
 	}
 	else
 	{

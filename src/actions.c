@@ -6,7 +6,7 @@
 /*   By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 14:14:59 by bfaure            #+#    #+#             */
-/*   Updated: 2023/12/12 16:49:43 by bfaure           ###   ########lyon.fr   */
+/*   Updated: 2023/12/13 18:38:37 by bfaure           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static void	update_eat_count(t_philo *philo)
 
 t_uint	eat(t_philo *philo)
 {
-	take_fork(philo);
+	if (take_fork(philo))
+		return (1);
 	if (philo->nb_eat != 0 && philo->nb_fork == 2)
 	{
 		update_last_eat_and_lifespan(philo);
@@ -48,8 +49,6 @@ t_uint	eat(t_philo *philo)
 			return (1);
 		drop_fork(philo);
 	}
-	else
-		drop_fork(philo);
 	return (0);
 }
 
