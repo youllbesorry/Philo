@@ -6,7 +6,7 @@
 #    By: bfaure <bfaure@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/28 11:31:06 by bfaure            #+#    #+#              #
-#    Updated: 2023/12/13 18:53:35 by bfaure           ###   ########lyon.fr    #
+#    Updated: 2023/12/14 10:32:58 by bfaure           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ CC		=	cc
 
 DEPS_FLAGS = -MMD -MP
 
-CFLAGS	=	${DEPS_FLAGS} -Wall -Wextra -Werror -pthread -g3 -fsanitize=thread
+CFLAGS	=	${DEPS_FLAGS} -Wall -Wextra -Werror -pthread
 
 # ---- Commands ---- #
 
